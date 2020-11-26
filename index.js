@@ -9,7 +9,7 @@ const env = process.env;
 
 const writeStreamFile = (stream) => {
   const writeStream = fs.createWriteStream(__dirname + `/designs.csv`);
-  return new Promise((resolve, reject) => {
+  new Promise((resolve, reject) => {
     stream.on("data", (chunk) => writeStream.write(chunk));
     stream.on("error", reject);
     stream.on("end", resolve);

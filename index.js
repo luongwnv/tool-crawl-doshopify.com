@@ -4,6 +4,7 @@ const fs = require("fs");
 const cheerio = require("cheerio");
 const _ = require("lodash");
 const stringify = require("csv-stringify");
+const { last } = require("lodash");
 
 const env = process.env;
 
@@ -19,6 +20,33 @@ const writeFile = (row) => {
 };
 
 const transform = (obj) => {
+  const numberLabel = [
+    "angle",
+    "width",
+    "height",
+    "opacity",
+    "font_size",
+    "price_add",
+    "arc_radius",
+    "x_position",
+    "y_position",
+    "line_height",
+    "effect_width",
+    "options_list",
+    "max_character",
+    "number_of_line",
+    "min_upload_width_px",
+    "field_heading_as_tab",
+    "min_upload_height_px",
+    "font_size_initial_2nd",
+    "font_size_initial_3rd",
+    "x_position_initial_2nd",
+    "x_position_initial_3rd",
+    "y_position_initial_2nd",
+    "y_position_initial_3rd",
+    "customer_can_change_font_size",
+    "customer_can_change_horizontal_alignment",
+  ];
   let newObj = {};
   for (let key in obj) {
     let newKey = key
@@ -26,7 +54,11 @@ const transform = (obj) => {
       .replace(/\t+|\n+|\r\n+/g, "")
       .trim();
     newKey = _.snakeCase(newKey);
-    newObj[newKey] = obj[key];
+    if (numberLabel.includes(newKey)) {
+      newObj[newKey] = parseFloat(obj[key]);
+    } else {
+      newObj[newKey] = obj[key];
+    }
   }
   return newObj;
 };
@@ -133,5 +165,5 @@ const transform = (obj) => {
       ]);
     }
     idx += 20;
-  } while (idx > -1);
+  } while (idx < 20);
 })();

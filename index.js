@@ -200,10 +200,26 @@ const crawl = async (item) => {
           } else {
             propData = option == `--Select--` ? null : option;
           }
+          const parentSelect = $(form).find(`option[selected]`).parent();
+          const parentOptions = $(parentSelect).find("option");
+          if (label.trim() == "Required Condition") {
+            tabData["options"] = [];
+            parentOptions.each((i, item) => {
+              tabData.options.push($(item).text());
+            });
+          }
         } else {
           const op = $(form).find(`option`).val();
           if (op) {
             propData = op;
+          }
+          const parentSelect = $(form).find(`option`).parent();
+          const parentOptions = $(parentSelect).find("option");
+          if (label.trim() == "Required Condition") {
+            tabData["options"] = [];
+            parentOptions.each((i, item) => {
+              tabData.options.push($(item).text());
+            });
           }
         }
         const textarea = $(form).find("textarea").val();
@@ -213,6 +229,12 @@ const crawl = async (item) => {
         const input = $(form).find("input").val();
         if (input) {
           propData = input;
+        }
+        if (typeof propData == "String") {
+          propData = propData.replace(
+            /[^\u00A0\u2122\u00AE\u00A9\u0020-\u007e]/gm,
+            ""
+          );
         }
         tabData[label] = propData;
       });
@@ -280,8 +302,7 @@ const crawl = async (item) => {
           newTab[newKey] = tabData[key];
         }
       }
-
-      blocks.push({ ...newAkb, ...newTab });
+      blocks = blocks.concat([{ ...newAkb, ...newTab }]);
     });
     personalize.blocks = blocks;
     const svpForms = $(`div.svp div.form-group`);

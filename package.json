@@ -15,6 +15,8 @@
     "csv-stringify": "^5.5.3",
     "dotenv": "^8.2.0",
     "fs": "0.0.1-security",
-    "lodash": "^4.17.20"
+    "headless-chrome-crawler": "^1.8.0",
+    "lodash": "^4.17.20",
+    "puppeteer": "^5.5.0"
   }
 }

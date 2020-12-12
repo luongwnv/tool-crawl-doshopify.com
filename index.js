@@ -321,13 +321,15 @@ const crawl = async (item) => {
         .find("span.divwhen option[selected]")
         .text()
         .trim()
-        .match(/[^\d\.]+/g)[0];
+        .match(/[^\d\.]+/g)[0]
+        .replace(/[^\u00A0\u2122\u00AE\u00A9\u0020-\u007e]/gm, "");
       let is = $(cond)
         .find("span.divis option[selected]")
         .text()
         .trim()
         .match(/[^\d\.]+/g)[0]
-        .replace(/\s+/g, ",");
+        .replace(/\s+/g, ",")
+        .replace(/[^\u00A0\u2122\u00AE\u00A9\u0020-\u007e]/gm, "");
       if (is.match(/\w,\w/g)) {
         is = is.split(",");
       } else {
@@ -337,13 +339,15 @@ const crawl = async (item) => {
         .find("span.divthen option[selected]")
         .text()
         .trim()
-        .match(/[^\d\.]+/g)[0];
+        .match(/[^\d\.]+/g)[0]
+        .replace(/[^\u00A0\u2122\u00AE\u00A9\u0020-\u007e]/gm, "");
       let targets = $(cond)
         .find("span.divtarget option[selected]")
         .text()
         .trim()
         .match(/[^\d\.]+/g)[0]
-        .replace(/\s+/g, ",");
+        .replace(/\s+/g, ",")
+        .replace(/[^\u00A0\u2122\u00AE\u00A9\u0020-\u007e]/gm, "");
       if (targets.match(/\w,\w/g)) {
         targets = targets.split(",");
       } else {

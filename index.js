@@ -186,7 +186,7 @@ const crawl = async (item) => {
       const tabForms = $(tab).find("div.bhoechie-tab-content div");
       let tabData = {};
       tabForms.each((i, form) => {
-        const label = $(form).find("label").text();
+        let label = $(form).find("label").text();
         const visibleParent = $(form).parent().css("display");
         const visibleForm = $(form).css("display");
         if (!label || visibleForm == "none" || visibleParent == "none") return;
@@ -202,7 +202,7 @@ const crawl = async (item) => {
           }
           const parentSelect = $(form).find(`option[selected]`).parent();
           const parentOptions = $(parentSelect).find("option");
-          if (label.trim() == "Required Condition") {
+          if (label.trim() == "Preselect value") {
             tabData["options"] = [];
             parentOptions.each((i, item) => {
               tabData.options.push($(item).text());
@@ -215,7 +215,7 @@ const crawl = async (item) => {
           }
           const parentSelect = $(form).find(`option`).parent();
           const parentOptions = $(parentSelect).find("option");
-          if (label.trim() == "Required Condition") {
+          if (label.trim() == "Preselect value") {
             tabData["options"] = [];
             parentOptions.each((i, item) => {
               tabData.options.push($(item).text());
@@ -236,6 +236,7 @@ const crawl = async (item) => {
             ""
           );
         }
+        label = label.replace(/[^\u00A0\u2122\u00AE\u00A9\u0020-\u007e]/gm, "");
         tabData[label] = propData;
       });
       const numberLabel = [
